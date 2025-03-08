@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chúc Mừng</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #ffdde1;
+            transition: background-color 1s ease-in-out;
+        }
+
+        .container {
+            background-color: white;
+            padding: 5vw;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            margin: 20px;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        }
+
+        #screen1, #screen2 {
+            transition: opacity 1s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        #screen2 {
+            opacity: 0;
+            transform: translateY(50px);
+            display: none;
+        }
+
+        input {
+            padding: 2vw;
+            margin: 2vw 0;
+            width: 80%;
+            max-width: 300px;
+            border: 2px solid #ff85a1;
+            border-radius: 5px;
+            font-size: clamp(14px, 4vw, 18px);
+        }
+
+        button {
+            padding: 2vw 4vw;
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: clamp(14px, 4vw, 18px);
+        }
+
+        button:hover {
+            background-color: #d63384;
+            transform: scale(1.1);
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: clamp(20px, 6vw, 32px);
+            margin: 10px 0;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .greeting {
+            color: #ff4d6d;
+            font-size: clamp(16px, 5vw, 24px);
+            margin-top: 20px;
+            animation: slideUp 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            input {
+                padding: 10px;
+            }
+            
+            button {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Giao diện 1 -->
+        <div id="screen1">
+            <h1>Nhập Tên Của Bạn</h1>
+            <input type="text" id="nameInput" placeholder="Tên của bạn...">
+            <br>
+            <button onclick="showGreeting()">Tiếp Tục</button>
+        </div>
+
+        <!-- Giao diện 2 -->
+        <div id="screen2">
+            <h1>Lời Chúc Đặc Biệt</h1>
+            <div id="greetingMessage" class="greeting"></div>
+        </div>
+    </div>
+
+    <script>
+        const jsConfetti = new JSConfetti();
+
+        function showGreeting() {
+            const name = document.getElementById('nameInput').value.trim();
+            if (name) {
+                document.getElementById('screen1').style.opacity = '0';
+                document.getElementById('screen1').style.transform = 'translateY(-50px)';
+                setTimeout(() => {
+                    document.getElementById('screen1').style.display = 'none';
+                    document.getElementById('screen2').style.display = 'block';
+                    document.getElementById('screen2').style.opacity = '1';
+                    document.getElementById('screen2').style.transform = 'translateY(0)';
+                }, 500);
+                
+                document.body.style.backgroundColor = "#ff85a1";
+                
+                const greeting = `Chúc ${name} một ngày tuyệt vời, tràn đầy niềm vui và hạnh phúc!`;
+                document.getElementById('greetingMessage').innerText = greeting;
+                
+                setTimeout(() => {
+                    jsConfetti.addConfetti({
+                        confettiColors: [
+                            '#ff0a54', '#ff477e', '#ff7096', 
+                            '#ff85a1', '#fbb1bd', '#f9bec7'
+                        ],
+                        confettiRadius: window.innerWidth < 480 ? 4 : 6,
+                        confettiNumber: window.innerWidth < 480 ? 300 : 500,
+                    });
+                }, 800);
+            } else {
+                alert('Vui lòng nhập tên của bạn!');
+            }
+        }
+    </script>
+</body>
+</html>
